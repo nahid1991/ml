@@ -1,10 +1,10 @@
-import pandas as pd
 import quandl, math, datetime
 import numpy as np
-from sklearn import preprocessing, model_selection,svm
+from sklearn import preprocessing, model_selection
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 from matplotlib import style
+import pickle
 
 style.use('ggplot')
 
@@ -33,8 +33,15 @@ y = np.array(df['label'])[:len(X)]
 print('Length of X and Y: ', len(X), len(y))
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.2)
 
-clf = LinearRegression(n_jobs=100)
-clf.fit(X_train, y_train)
+# clf = LinearRegression(n_jobs=100)
+# clf.fit(X_train, y_train)
+#
+# with open('linearregression.pickle', 'wb') as f:
+#     pickle.dump(clf, f)
+
+pickle_in = open('linearregression.pickle', 'rb')
+clf = pickle.load(pickle_in)
+
 accuracy = clf.score(X_test, y_test)
 
 forecast_set = clf.predict(X_lately)
