@@ -16,9 +16,17 @@ imputer = SimpleImputer(missing_values=np.nan, strategy='mean', verbose=0)
 imputer.fit(X[:, 1:3])
 X[:, 1:3] = imputer.transform(X[:, 1:3])
 
+# Encoding categorical data
+# Encoding the Independent Variable
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+onehotencoder = ColumnTransformer([('one_hot_encoder', OneHotEncoder(categories='auto'), [0])], remainder='passthrough')
+X = np.array(onehotencoder.fit_transform(X), dtype=np.float)
+
 # Splitting the dataset into the Training set and Test set
-"""from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)"""
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+X_train, X_test, y_train, y_test = np.array(X_train, dtype=np.float), np.array(X_test, dtype=np.float), np.array(y_train, dtype=np.float), np.array(y_test, dtype=np.float)
 
 # Feature Scaling
 """from sklearn.preprocessing import StandardScaler
